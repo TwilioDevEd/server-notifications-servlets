@@ -1,5 +1,9 @@
 package com.twilio.notifications.filter;
 
+import com.twilio.notifications.models.Administrator;
+import com.twilio.notifications.utils.Client;
+import com.twilio.notifications.utils.Repository;
+
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import java.io.IOException;
@@ -10,11 +14,18 @@ public class ErrorFilter implements Filter {
     }
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String errorMessage = "Ouch";
+        String errorMessage = "Generic error message";
         try {
             chain.doFilter(request, response);
         } catch (Throwable throwable) {
-            errorMessage = throwable.getMessage();
+            String message = customMessage(throwable.getMessage());
+            String mediaUrl = "http://goo.gl/ObTXdX";
+
+            // Send a message to the administrators when something went unexpectedly wrong.
+            Administrator[] administrators = new Repository().getAdministrators();
+            for (Administrator administrator : administrators) {
+                new Client().sendMessage(administrator.getPhoneNumber(), message, mediaUrl);
+            }
         }
 
         Object error = errorMessage;
