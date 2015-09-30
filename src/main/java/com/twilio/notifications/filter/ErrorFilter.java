@@ -24,4 +24,11 @@ public class ErrorFilter implements Filter {
 
     public void destroy() {
     }
+
+    private String customMessage(String exceptionMessage) {
+        return String.format("It appears the server is having Exception: %s " +
+                        "Go to: http://newrelic.com for more details. " +
+                        "Image URL: http://goo.gl/ObTXdX",
+                exceptionMessage);
+    }
 }
