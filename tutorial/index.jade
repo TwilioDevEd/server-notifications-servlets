@@ -3,8 +3,8 @@
     :markdown
       ## What does this thing do?
 
-      This [Java EE](//docs.oracle.com/javaee/6/tutorial/doc/bnafd.html) sample
-      application _using Java Servlets Technology_ demonstrates how to send SMS
+      This [Java Servlets](//docs.oracle.com/javaee/6/tutorial/doc/bnafd.html) sample
+      application demonstrates how to send SMS
       alerts to a list of system administrators if something goes wrong on your
       server. In this tutorial, we'll show you the key bits of code to make this
       work.
@@ -22,14 +22,9 @@
       ## List server admins
 
       Create a list of administrators who should be notified if a server error occurs.
-      The only requirement we have is a `phoneNumber`.
+      Each administrator must have a `phoneNumber`.
 
-      ---
-
-      **See Also:**
-      * [JSON](//www.json.org/)
-
-  .step(data-file='src/main/java/com/twilio/notifications/utils/Client.java',
+  .step(data-file='twilio/notifications/utils/Client.java',
   data-highlight='15-20')
     :markdown
       ## Configure Twilio client
@@ -45,14 +40,14 @@
       * [Twilio Java
       SDK](//mvnrepository.com/artifact/com.twilio.sdk/twilio-java-sdk)
 
-  .step(data-file='src/main/java/com/twilio/notifications/filter/ErrorFilter.java',
+  .step(data-file='twilio/notifications/filter/ErrorFilter.java',
   data-highlight='11, 16-34')
     :markdown
       ## Handle all errors
 
-      One of the mechanisms provided by Java EE to handle exceptions thrown by
-      another `Servlet` is to use `WebFilters`. We'll use the method `doFilter`
-      to catch the exception.
+      Using a Servlet Filter, we can capture any unhandled exceptions thrown 
+      by any other Servlets or Filters set up to handle a given URL. This would
+      be our opportunity to send out an alert message to administrators.
 
       ---
 
@@ -62,7 +57,7 @@
       * [Understanding and Using Servlet
       Filters](//sqltech.cl/doc/oas10gR31/web.1013/b28959/filters.htm)
 
-  .step(data-file='src/main/java/com/twilio/notifications/filter/ErrorFilter.java',
+  .step(data-file='twilio/notifications/filter/ErrorFilter.java',
   data-highlight='39-44')
     :markdown
       ## Create a custom alert message
@@ -76,32 +71,25 @@
       **See Also:**
       * [String.Format](//docs.oracle.com/javase/7/docs/api/java/lang/String.html#format)
 
-  .step(data-file='src/main/java/com/twilio/notifications/utils/Repository.java',
+  .step(data-file='twilio/notifications/utils/Repository.java',
   data-highlight='22')
     :markdown
       ## Reading the admins from the JSON file
 
-      Next we read the admins from our JSON file. We're relying on
-      [Gson](//github.com/google/gson) Java library to convert a
-      JSON into Java Objects, to do it we use the method `fromJson` to read all
-      the objects.
+      Next we read the admins from our JSON file. We're relying on the
+      [Gson](https://github.com/google/gson) Java library to convert our JSON
+      text file into `Administrator` objects, which we created in our application.
 
-      ---
-
-      **See Also:**
-      * [JSON](//www.json.org/)
-
-  .step(data-file='src/main/java/com/twilio/notifications/utils/Client.java',
+  .step(data-file='twilio/notifications/utils/Client.java',
   data-highlight='15-20,27-45')
     :markdown
       ## Sending a text message
 
       There are the three parameters needed to [send an
-      SMS](//www.twilio.com/docs/quickstart/java/sms/sending-via-rest) using the
-      [Twilio REST API](//www.twilio.com/docs/api/rest): `From`, `To`, `Body`,
-      and `MediaUrl`. After the message is sent, we print out the phone number
-      we're texting. [US phone
-      numbers](//www.twilio.com/help/faq/sms/is-mms-supported-for-all-carriers-in-us-and-canada)
+      SMS](https://www.twilio.com/docs/quickstart/java/sms/sending-via-rest)
+      using the [Twilio REST API](https://www.twilio.com/docs/api/rest):
+      `From`, `To`, and `Body`. [US and Canadian phone
+      numbers](https://www.twilio.com/help/faq/sms/is-mms-supported-for-all-carriers-in-us-and-canada)
       can also send an image with the message.
 
       ---
