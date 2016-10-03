@@ -19,6 +19,6 @@ public class TwilioMessageCreator {
                 body);
         messageCreator.setMediaUrl(mediaUrl);
 
-        return messageCreator.execute(this.client);
+        return messageCreator.create(this.client);
     }
 }
