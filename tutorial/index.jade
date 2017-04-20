@@ -1,0 +1,127 @@
+.chapter(data-title='Server Notifications and Alerts')
+  .step(data-file='src/main/resources/administrators.json')
+    :markdown
+      ## What does this thing do?
+
+      This [Java Servlets](//docs.oracle.com/javaee/6/tutorial/doc/bnafd.html) sample
+      application demonstrates how to send SMS
+      alerts to a list of system administrators if something goes wrong on your
+      server. In this tutorial, we'll show you the key bits of code to make this
+      work.
+
+      Let's get started!
+
+      ---
+
+      **See Also:**
+      * [What is a
+      Servlet?](//docs.oracle.com/javaee/6/tutorial/doc/bnafe.html)
+
+  .step(data-file='src/main/resources/administrators.json')
+    :markdown
+      ## List server admins
+
+      Create a list of administrators who should be notified if a server error occurs.
+      Each administrator must have a `phoneNumber`.
+
+  .step(data-file='twilio/notifications/utils/Client.java',
+  data-highlight='10-15')
+    :markdown
+      ## Configure Twilio client
+
+      In order to send a message we'll need to initialize the [Twilio Java Helper
+      Library](//www.twilio.com/docs/java/install),
+      which requires reading our `TWILIO_ACCOUNT_SID` and `TWILIO_AUTH_TOKEN`
+      defined as environment variables.
+
+      `TwilioMessageCreator` is a custom wrapper for `MessageCreator`.
+
+      ---
+
+      **See Also:**
+      * [Twilio Java SDK](//mvnrepository.com/artifact/com.twilio.sdk/twilio)
+
+  .step(data-file='twilio/notifications/filter/ErrorFilter.java',
+  data-highlight='11, 16-34')
+    :markdown
+      ## Handle all errors
+
+      Using a Servlet Filter, we can capture any unhandled exceptions thrown 
+      by any other Servlets or Filters set up to handle a given URL. This would
+      be our opportunity to send out an alert message to administrators.
+
+      ---
+
+      **See Also:**
+      * [Filtering Requests and
+      Responses](//docs.oracle.com/javaee/6/tutorial/doc/bnagb.html)
+      * [Understanding and Using Servlet
+      Filters](//sqltech.cl/doc/oas10gR31/web.1013/b28959/filters.htm)
+
+  .step(data-file='twilio/notifications/filter/ErrorFilter.java',
+  data-highlight='39-44')
+    :markdown
+      ## Create a custom alert message
+
+      Here we create an alert message to send out via text message. You might also
+      decide to include a picture with your alert message, maybe a screenshot of the
+      application when the crash happened?
+
+      ---
+
+      **See Also:**
+      * [String.Format](//docs.oracle.com/javase/7/docs/api/java/lang/String.html#format)
+
+  .step(data-file='twilio/notifications/utils/Repository.java',
+  data-highlight='22')
+    :markdown
+      ## Reading the admins from the JSON file
+
+      Next we read the admins from our JSON file. We're relying on the
+      [Gson](https://github.com/google/gson) Java library to convert our JSON
+      text file into `Administrator` objects, which we created in our application.
+
+  .step(
+    data-file='twilio/notifications/utils/Client.java')
+    :markdown
+      ## Sending a text message
+
+      There are the three parameters needed to [send an
+      SMS](https://www.twilio.com/docs/quickstart/java/sms/sending-via-rest)
+      using the [Twilio REST API](https://www.twilio.com/docs/api/rest):
+      `From`, `To`, and `Body`. [US and Canadian phone
+      numbers](https://www.twilio.com/help/faq/sms/is-mms-supported-for-all-carriers-in-us-and-canada)
+      can also send an image with the message.
+
+      ---
+
+      **See Also:**
+      * [REST API Docs for Message resource](//www.twilio.com/docs/api/rest/message)
+      * [Your message logs in the account portal](//www.twilio.com/user/account/log/messages)
+
+  .step
+    :markdown
+      ## Where to next?
+
+      That's it! We've just implemented an automated server notification system
+      that can send you server alerts if anything goes wrong. If you're a Java
+      developer working with Twilio, you might want to check out these other
+      tutorials.
+
+      [**Automated
+      Survey**](https://www.twilio.com/docs/howto/walkthrough/automated-survey/java/spring)
+
+      Instantly collect structured data from your users with a survey conducted
+      over a voice call or SMS text messages
+
+      [**Appointment
+      Reminders**](https://www.twilio.com/docs/howto/walkthrough/appointment-reminders/java/spark)
+
+      Send your customers a text message when they have an upcoming appointment,
+      this tutorial shows you how to do it from a background job.
+
+      ### Did this help?
+
+      Thanks for checking this tutorial out! If you have any feedback
+      to share with us, we'd love to hear it.
+      [Contact the Twilio Developer Education Team](mailto:deved-oss@twilio.com) to let us know what you think.

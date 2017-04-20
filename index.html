@@ -1,0 +1,100 @@
+<!DOCTYPE html><html><head><title>Server Notifications</title><style>body, html {
+  height:100%;
+  width:100%;
+  padding:0;
+  margin:0;
+  overflow:hidden;
+  background-color:#ddd;
+}
+.wrapper {
+  height:100%;
+  width:100%;
+}</style><link rel="shortcut icon" href="//twilio.com/bundles/marketing/img/favicons/favicon.ico"><link rel="apple-touch-icon" href="//twilio.com/bundles/marketing/img/favicons/favicon_57.png"><link rel="apple-touch-icon" sizes="72x72" href="//twilio.com/bundles/marketing/img/favicons/favicon_72.png"><link rel="apple-touch-icon" sizes="114x114" href="//twilio.com/bundles/marketing/img/favicons/favicon_114.png"><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"><link rel="stylesheet" href="viewsaurus.css"></head><body><div class="wrapper"><div id="viewsaurus" data-title="Server Notifications"><div class="saurus-panes"><div class="saurus-prose"><div class="saurus-prose-header"><div class="title-outer"><span class="step-title">Server Notifications</span></div></div><div class="saurus-nav-buttons"><div class="saurus-nav-button nav-overview"><div class="saurus-nav-button-inner"><i class="fa fa-fw fa-list"></i></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-previous"><div class="saurus-nav-button-inner"><a href=""> <i class="fa fa-fw fa-play fa-rotate-180"></i></a></div><div class="nav-divider"></div></div><div class="saurus-nav-button nav-next clickable"><div class="saurus-nav-button-inner"><a href="#1"> <i class="fa fa-fw fa-play"></i></a></div></div><div class="saurus-next-title"><span class="next-title-inner"></span></div></div><div class="saurus-progress-bar"></div><div class="saurus-start"><p>Never miss another server outage. Learn how to build a server notification system that will alert all administrators via SMS when a server outage occurs.</p><a href="#0">Start Tutorial</a></div><div class="saurus-content"><div data-title="Server Notifications and Alerts" class="chapter"><div data-file="src/main/resources/administrators.json" class="step"><h2 id="what-does-this-thing-do-">What does this thing do?</h2>
+<p>This <a href="//docs.oracle.com/javaee/6/tutorial/doc/bnafd.html">Java Servlets</a> sample
+application demonstrates how to send SMS
+alerts to a list of system administrators if something goes wrong on your
+server. In this tutorial, we&#39;ll show you the key bits of code to make this
+work.</p>
+<p>Let&#39;s get started!</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//docs.oracle.com/javaee/6/tutorial/doc/bnafe.html">What is a
+Servlet?</a></li>
+</ul>
+</div><div data-file="src/main/resources/administrators.json" class="step"><h2 id="list-server-admins">List server admins</h2>
+<p>Create a list of administrators who should be notified if a server error occurs.
+Each administrator must have a <code>phoneNumber</code>.</p>
+</div><div data-file="twilio/notifications/utils/Client.java" data-highlight="10-15" class="step"><h2 id="configure-twilio-client">Configure Twilio client</h2>
+<p>In order to send a message we&#39;ll need to initialize the <a href="//www.twilio.com/docs/java/install">Twilio Java Helper
+Library</a>,
+which requires reading our <code>TWILIO_ACCOUNT_SID</code> and <code>TWILIO_AUTH_TOKEN</code>
+defined as environment variables.</p>
+<p><code>TwilioMessageCreator</code> is a custom wrapper for <code>MessageCreator</code>.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//mvnrepository.com/artifact/com.twilio.sdk/twilio">Twilio Java SDK</a></li>
+</ul>
+</div><div data-file="twilio/notifications/filter/ErrorFilter.java" data-highlight="11, 16-34" class="step"><h2 id="handle-all-errors">Handle all errors</h2>
+<p>Using a Servlet Filter, we can capture any unhandled exceptions thrown 
+by any other Servlets or Filters set up to handle a given URL. This would
+be our opportunity to send out an alert message to administrators.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//docs.oracle.com/javaee/6/tutorial/doc/bnagb.html">Filtering Requests and
+Responses</a></li>
+<li><a href="//sqltech.cl/doc/oas10gR31/web.1013/b28959/filters.htm">Understanding and Using Servlet
+Filters</a></li>
+</ul>
+</div><div data-file="twilio/notifications/filter/ErrorFilter.java" data-highlight="39-44" class="step"><h2 id="create-a-custom-alert-message">Create a custom alert message</h2>
+<p>Here we create an alert message to send out via text message. You might also
+decide to include a picture with your alert message, maybe a screenshot of the
+application when the crash happened?</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//docs.oracle.com/javase/7/docs/api/java/lang/String.html#format">String.Format</a></li>
+</ul>
+</div><div data-file="twilio/notifications/utils/Repository.java" data-highlight="22" class="step"><h2 id="reading-the-admins-from-the-json-file">Reading the admins from the JSON file</h2>
+<p>Next we read the admins from our JSON file. We&#39;re relying on the
+<a href="https://github.com/google/gson">Gson</a> Java library to convert our JSON
+text file into <code>Administrator</code> objects, which we created in our application.</p>
+</div><div data-file="twilio/notifications/utils/Client.java" class="step"><h2 id="sending-a-text-message">Sending a text message</h2>
+<p>There are the three parameters needed to <a href="https://www.twilio.com/docs/quickstart/java/sms/sending-via-rest">send an
+SMS</a>
+using the <a href="https://www.twilio.com/docs/api/rest">Twilio REST API</a>:
+<code>From</code>, <code>To</code>, and <code>Body</code>. <a href="https://www.twilio.com/help/faq/sms/is-mms-supported-for-all-carriers-in-us-and-canada">US and Canadian phone
+numbers</a>
+can also send an image with the message.</p>
+<hr>
+<p><strong>See Also:</strong></p>
+<ul>
+<li><a href="//www.twilio.com/docs/api/rest/message">REST API Docs for Message resource</a></li>
+<li><a href="//www.twilio.com/user/account/log/messages">Your message logs in the account portal</a></li>
+</ul>
+</div><div class="step"><h2 id="where-to-next-">Where to next?</h2>
+<p>That&#39;s it! We&#39;ve just implemented an automated server notification system
+that can send you server alerts if anything goes wrong. If you&#39;re a Java
+developer working with Twilio, you might want to check out these other
+tutorials.</p>
+<p><a href="https://www.twilio.com/docs/howto/walkthrough/automated-survey/java/spring"><strong>Automated
+Survey</strong></a></p>
+<p>Instantly collect structured data from your users with a survey conducted
+over a voice call or SMS text messages</p>
+<p><a href="https://www.twilio.com/docs/howto/walkthrough/appointment-reminders/java/spark"><strong>Appointment
+Reminders</strong></a></p>
+<p>Send your customers a text message when they have an upcoming appointment,
+this tutorial shows you how to do it from a background job.</p>
+<h3 id="did-this-help-">Did this help?</h3>
+<p>Thanks for checking this tutorial out! If you have any feedback
+to share with us, we&#39;d love to hear it.
+<a href="mailto:deved-oss@twilio.com">Contact the Twilio Developer Education Team</a> to let us know what you think.</p>
+</div></div>
+<div class="saurus-files" style="display:none;"><textarea class="saurus-file" data-file="src/main/resources/administrators.json" data-mode="json">WwogIHsKICAgICJuYW1lIjogIkJvYiIsCiAgICAicGhvbmVOdW1iZXIiOiAiKzEyMDI1NTUwMTk3IgogIH0sCiAgewogICAgIm5hbWUiOiAiQWxpY2UiLAogICAgInBob25lTnVtYmVyIjogIisxMjAyNTU1MDg5MCIKICB9Cl0=</textarea>
+<textarea class="saurus-file" data-file="twilio/notifications/utils/Client.java" data-mode="java">cGFja2FnZSBjb20udHdpbGlvLm5vdGlmaWNhdGlvbnMudXRpbHM7CgppbXBvcnQgY29tLnR3aWxpby5leGNlcHRpb24uVHdpbGlvRXhjZXB0aW9uOwppbXBvcnQgY29tLnR3aWxpby5odHRwLlR3aWxpb1Jlc3RDbGllbnQ7CgpwdWJsaWMgY2xhc3MgQ2xpZW50IHsKICAgIHByaXZhdGUgQ3JlZGVudGlhbHMgY3JlZGVudGlhbHM7CiAgICBwcml2YXRlIFR3aWxpb01lc3NhZ2VDcmVhdG9yIG1lc3NhZ2VDcmVhdG9yOwoKICAgIHB1YmxpYyBDbGllbnQoKSB7CiAgICAgICAgdGhpcy5jcmVkZW50aWFscyA9IG5ldyBDcmVkZW50aWFscygpOwogICAgICAgIFR3aWxpb1Jlc3RDbGllbnQgY2xpZW50ID0gbmV3IFR3aWxpb1Jlc3RDbGllbnQuQnVpbGRlcigKICAgICAgICAgICAgICAgIGNyZWRlbnRpYWxzLmdldEFjY291bnRTaWQoKSwgY3JlZGVudGlhbHMuZ2V0QXV0aFRva2VuKCkpLmJ1aWxkKCk7CiAgICAgICAgdGhpcy5tZXNzYWdlQ3JlYXRvciA9IG5ldyBUd2lsaW9NZXNzYWdlQ3JlYXRvcihjbGllbnQpOwogICAgfQoKICAgIHB1YmxpYyBDbGllbnQoQ3JlZGVudGlhbHMgY3JlZGVudGlhbHMsIFR3aWxpb01lc3NhZ2VDcmVhdG9yIG1lc3NhZ2VDcmVhdG9yKSB7CiAgICAgICAgdGhpcy5jcmVkZW50aWFscyA9IGNyZWRlbnRpYWxzOwogICAgICAgIHRoaXMubWVzc2FnZUNyZWF0b3IgPSBtZXNzYWdlQ3JlYXRvcjsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBzZW5kTWVzc2FnZShTdHJpbmcgdG8sIFN0cmluZyBtZXNzYWdlLCBTdHJpbmcgbWVkaWFVcmwpIHsKICAgICAgICB0cnkgewogICAgICAgICAgICB0aGlzLm1lc3NhZ2VDcmVhdG9yLmNyZWF0ZSh0bywgdGhpcy5jcmVkZW50aWFscy5nZXRQaG9uZU51bWJlcigpLCBtZXNzYWdlLCBtZWRpYVVybCk7CiAgICAgICAgfSBjYXRjaCAoVHdpbGlvRXhjZXB0aW9uIGV4Y2VwdGlvbikgewogICAgICAgICAgICBleGNlcHRpb24ucHJpbnRTdGFja1RyYWNlKCk7CiAgICAgICAgfQogICAgfQp9</textarea>
+<textarea class="saurus-file" data-file="twilio/notifications/filter/ErrorFilter.java" data-mode="java">cGFja2FnZSBjb20udHdpbGlvLm5vdGlmaWNhdGlvbnMuZmlsdGVyOwoKaW1wb3J0IGNvbS50d2lsaW8ubm90aWZpY2F0aW9ucy5tb2RlbHMuQWRtaW5pc3RyYXRvcjsKaW1wb3J0IGNvbS50d2lsaW8ubm90aWZpY2F0aW9ucy51dGlscy5DbGllbnQ7CmltcG9ydCBjb20udHdpbGlvLm5vdGlmaWNhdGlvbnMudXRpbHMuUmVwb3NpdG9yeTsKCmltcG9ydCBqYXZheC5zZXJ2bGV0Lio7CmltcG9ydCBqYXZheC5zZXJ2bGV0LmFubm90YXRpb24uV2ViRmlsdGVyOwppbXBvcnQgamF2YS5pby5JT0V4Y2VwdGlvbjsKCkBXZWJGaWx0ZXIoZmlsdGVyTmFtZSA9ICJFcnJvckZpbHRlciIsIHVybFBhdHRlcm5zID0geyIvbGF1bmNoIn0pCnB1YmxpYyBjbGFzcyBFcnJvckZpbHRlciBpbXBsZW1lbnRzIEZpbHRlciB7CiAgICBwdWJsaWMgdm9pZCBpbml0KEZpbHRlckNvbmZpZyBmaWx0ZXJDb25maWcpIHRocm93cyBTZXJ2bGV0RXhjZXB0aW9uIHsKICAgIH0KCiAgICBwdWJsaWMgdm9pZCBkb0ZpbHRlcihTZXJ2bGV0UmVxdWVzdCByZXF1ZXN0LCBTZXJ2bGV0UmVzcG9uc2UgcmVzcG9uc2UsIEZpbHRlckNoYWluIGNoYWluKSB0aHJvd3MgSU9FeGNlcHRpb24sIFNlcnZsZXRFeGNlcHRpb24gewogICAgICAgIFN0cmluZyBlcnJvck1lc3NhZ2UgPSAiR2VuZXJpYyBlcnJvciBtZXNzYWdlIjsKICAgICAgICB0cnkgewogICAgICAgICAgICBjaGFpbi5kb0ZpbHRlcihyZXF1ZXN0LCByZXNwb25zZSk7CiAgICAgICAgfSBjYXRjaCAoVGhyb3dhYmxlIHRocm93YWJsZSkgewogICAgICAgICAgICBTdHJpbmcgbWVzc2FnZSA9IGN1c3RvbU1lc3NhZ2UodGhyb3dhYmxlLmdldE1lc3NhZ2UoKSk7CiAgICAgICAgICAgIFN0cmluZyBtZWRpYVVybCA9ICJodHRwOi8vZ29vLmdsL09iVFhkWCI7CgogICAgICAgICAgICAvLyBTZW5kIGEgbWVzc2FnZSB0byB0aGUgYWRtaW5pc3RyYXRvcnMgd2hlbiBzb21ldGhpbmcgd2VudCB1bmV4cGVjdGVkbHkgd3JvbmcuCiAgICAgICAgICAgIEFkbWluaXN0cmF0b3JbXSBhZG1pbmlzdHJhdG9ycyA9IG5ldyBSZXBvc2l0b3J5KCkuZ2V0QWRtaW5pc3RyYXRvcnMoKTsKICAgICAgICAgICAgZm9yIChBZG1pbmlzdHJhdG9yIGFkbWluaXN0cmF0b3IgOiBhZG1pbmlzdHJhdG9ycykgewogICAgICAgICAgICAgICAgbmV3IENsaWVudCgpLnNlbmRNZXNzYWdlKGFkbWluaXN0cmF0b3IuZ2V0UGhvbmVOdW1iZXIoKSwgbWVzc2FnZSwgbWVkaWFVcmwpOwogICAgICAgICAgICB9CiAgICAgICAgfQoKICAgICAgICBPYmplY3QgZXJyb3IgPSBlcnJvck1lc3NhZ2U7CiAgICAgICAgcmVxdWVzdC5zZXRBdHRyaWJ1dGUoImVycm9yIiwgZXJyb3IpOwogICAgICAgIHJlcXVlc3QuZ2V0UmVxdWVzdERpc3BhdGNoZXIoImVycm9yLmpzcCIpLmZvcndhcmQocmVxdWVzdCwgcmVzcG9uc2UpOwogICAgfQoKICAgIHB1YmxpYyB2b2lkIGRlc3Ryb3koKSB7CiAgICB9CgogICAgcHJpdmF0ZSBTdHJpbmcgY3VzdG9tTWVzc2FnZShTdHJpbmcgZXhjZXB0aW9uTWVzc2FnZSkgewogICAgICAgIHJldHVybiBTdHJpbmcuZm9ybWF0KCJJdCBhcHBlYXJzIHRoZSBzZXJ2ZXIgaXMgaGF2aW5nIEV4Y2VwdGlvbjogJXMgIiArCiAgICAgICAgICAgICAgICAgICAgICAgICJHbyB0bzogaHR0cDovL25ld3JlbGljLmNvbSBmb3IgbW9yZSBkZXRhaWxzLiAiICsKICAgICAgICAgICAgICAgICAgICAgICAgIkltYWdlIFVSTDogaHR0cDovL2dvby5nbC9PYlRYZFgiLAogICAgICAgICAgICAgICAgZXhjZXB0aW9uTWVzc2FnZSk7CiAgICB9Cn0K</textarea>
+<textarea class="saurus-file" data-file="twilio/notifications/utils/Repository.java" data-mode="java">cGFja2FnZSBjb20udHdpbGlvLm5vdGlmaWNhdGlvbnMudXRpbHM7CgppbXBvcnQgY29tLmdvb2dsZS5nc29uLkdzb247CmltcG9ydCBjb20udHdpbGlvLm5vdGlmaWNhdGlvbnMubW9kZWxzLkFkbWluaXN0cmF0b3I7CgppbXBvcnQgamF2YS5pby5GaWxlTm90Rm91bmRFeGNlcHRpb247CmltcG9ydCBqYXZhLmlvLkZpbGVSZWFkZXI7CgpwdWJsaWMgY2xhc3MgUmVwb3NpdG9yeSB7CiAgICBwcml2YXRlIFN0cmluZyBmaWxlUGF0aDsKCiAgICBwdWJsaWMgUmVwb3NpdG9yeSgpIHsKICAgICAgICB0aGlzLmZpbGVQYXRoID0gZ2V0Q2xhc3MoKS5nZXRDbGFzc0xvYWRlcigpLmdldFJlc291cmNlKCJhZG1pbmlzdHJhdG9ycy5qc29uIikuZ2V0UGF0aCgpOwogICAgfQoKICAgIHB1YmxpYyBSZXBvc2l0b3J5KFN0cmluZyBmaWxlUGF0aCkgewogICAgICAgIHRoaXMuZmlsZVBhdGggPSBmaWxlUGF0aDsKICAgIH0KCiAgICBwdWJsaWMgQWRtaW5pc3RyYXRvcltdIGdldEFkbWluaXN0cmF0b3JzKCkgewogICAgICAgIHRyeSB7CiAgICAgICAgICAgIHJldHVybiBuZXcgR3NvbigpLmZyb21Kc29uKG5ldyBGaWxlUmVhZGVyKGZpbGVQYXRoKSwgQWRtaW5pc3RyYXRvcltdLmNsYXNzKTsKICAgICAgICB9IGNhdGNoIChGaWxlTm90Rm91bmRFeGNlcHRpb24gZSkgewogICAgICAgICAgICBlLnByaW50U3RhY2tUcmFjZSgpOwoKICAgICAgICAgICAgcmV0dXJuIG5ldyBBZG1pbmlzdHJhdG9yWzBdOwogICAgICAgIH0KICAgIH0KfQo=</textarea>
+</div>
+</div><div class="saurus-overview"><ul></ul></div></div><div class="saurus-code"><div class="file-path"><span class="crumb-container"></span><i class="fa fa-fw fa-folder"></i></div><div class="saurus-editor"></div></div><div class="saurus-explorer"><div class="saurus-file-list"></div><a href="https://github.com/TwilioDevEd/server-notifications-servlets" target="_blank" class="explorer-get-code"> <i class="fa fa-lg fa-github-square"> </i>View Code on GitHub</a></div></div></div></div><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script><script src="ace/ace.js"></script><script src="ace/theme-monokai.js"></script><script src="viewsaurus.js"></script></body></html>
