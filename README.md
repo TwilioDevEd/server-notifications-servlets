@@ -1,7 +1,6 @@
 # Server Notifications with Servlets
 
-[![Build
-Status](https://travis-ci.org/TwilioDevEd/server-notifications-servlets.svg?branch=master)](https://travis-ci.org/TwilioDevEd/server-notifications-servlets)
+[![Java Servlet CI](https://github.com/TwilioDevEd/server-notifications-servlets/actions/workflows/maven.yml/badge.svg)](https://github.com/TwilioDevEd/server-notifications-servlets/actions/workflows/maven.yml)
 
 Use Twilio to send SMS alerts so that you never miss a critical issue.
 
